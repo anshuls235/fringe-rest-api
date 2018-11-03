@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from django.core.validators import RegexValidator
 
 # Create your models here.
 class UserProfileManager(BaseUserManager):
@@ -41,9 +42,16 @@ class UserProfileManager(BaseUserManager):
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Represents the User Profile inside our system."""
 
+    #Regular expression for phone number
+    phone_regex = RegexValidator(regex=r'(\+?\d{1,3})?[-\s]?[6789]\d{9}',
+    message = "Phone number entered is invalid")
+
     corporate_email = models.EmailField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+    phone_no = models.CharField(validators=[phone_regex], max_length=17,
+        blank=True)
+    image = models.ImageField(upload_to="users/", null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
