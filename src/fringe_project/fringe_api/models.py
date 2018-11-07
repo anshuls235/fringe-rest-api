@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 # Create your models here.
 class UserProfileManager(BaseUserManager):
